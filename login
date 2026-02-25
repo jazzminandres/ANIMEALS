@@ -158,12 +158,13 @@ body {
     justify-content: center; 
     margin: 0 auto 10px;
     transition: transform 0.5s ease;
+     margin-top: -10px;
 }
 
 /* size ng logo */
 .logo img {
-    width: 120%;
-    height: 120%;
+    width: 150%;
+    height: 150%;
     object-fit: contain;
 }
 /* transition lang ng logo */
@@ -182,13 +183,21 @@ body {
     border-radius: 30px; 
     padding: 11px 20px; 
     margin-bottom: 15px; 
-    border: none; 
+    border: 2px solid transparent;
     background-color: #f0f0f0;
     box-shadow: inset 6px 6px 10px var(--neu-gray), 
                 inset -6px -6px 10px var(--neu-white);
     transition: 0.3s;
     outline: none;
     width: 100%;
+}
+
+.form-control:focus {
+   background-color: #f0f0f0; 
+    border: 2px solid var(--accent-color); 
+    box-shadow: inset 6px 6px 10px var(--neu-gray), 
+                inset -6px -6px 10px var(--neu-white);
+    outline: none;
 }
 
 /* same position sa login and sign up */
@@ -302,10 +311,10 @@ body {
 
         <div class="form-box login-form form-visible" id="loginForm">
             <div class="logo">
-                <img src="logo.png" alt="ANIMEALS Logo">
+                <img src="logo.png" alt="">
             </div>
-            <h4 class="mb-1">WELCOME BACK</h4>
-            <p class="description-text">Sign in to continue your food journey.</p>
+            <h4 class="mb-1">WELCOME BACK!</h4>
+            <p class="description-text">Log in to continue your food journey.</p>
             
             <input type="email" class="form-control" placeholder="Email">
             
