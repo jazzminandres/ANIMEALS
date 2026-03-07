@@ -10,11 +10,12 @@
 <style>
 /* kulay ng buttons and texts */
 :root {
-    --primary-gradient: linear-gradient(135deg, #f48fb1, #b39ddb);
-    --bg-gradient: linear-gradient(135deg, #fde2e4, #e2f0ff);
-    --accent-color: #c77d9d;
+    --primary-gradient: linear-gradient(135deg, #2ecc71, #0e6e36);
+    --bg-gradient: linear-gradient(135deg, #d4f8e8, #e8fff4);
+    --accent-color: #27ae60;
+    --accent-color2: #c77d9d;
     --neu-white: #ffffff;
-    --neu-gray: #d1d9e6;
+    --neu-gray: #cfe9da;
 }
 
 /* main body or box para mag center lang */
@@ -150,22 +151,22 @@ body {
 
 /* logo ito */
 .logo{
-    width: 90px; 
-    height: 90px; 
-    background: transparent; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    margin: 0 auto 10px;
-    transition: transform 0.5s ease;
-     margin-top: -10px;
+    width: 200px;
+    height: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 0 auto -10px;
+    margin-top: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* size ng logo */
-.logo img {
-    width: 150%;
-    height: 150%;
-    object-fit: contain;
+.logo video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 /* transition lang ng logo */
 .form-visible .logo{ 
@@ -239,9 +240,8 @@ body {
 /* hover effects ng buttons */
 .btn-main:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 15px #f48fb1, 0 0 30px #b39ddb;
+    box-shadow: 0 0 15px #2ecc71, 0 0 30px #27ae60;
 }
-
 /* social media */
 .social-container {
     display: flex;
@@ -310,9 +310,11 @@ body {
     <div class="right-panel">
 
         <div class="form-box login-form form-visible" id="loginForm">
-            <div class="logo">
-                <img src="logo.png" alt="">
-            </div>
+             <div class="logo">
+    <video autoplay muted loop playsinline>
+        <source src="vid.mp4">
+    </video>
+</div>
             <h4 class="mb-1">WELCOME BACK!</h4>
             <p class="description-text">Log in to continue your food journey.</p>
             
@@ -330,7 +332,7 @@ body {
                         Keep me logged in
                     </label>
                 </div>
-                <a href="#" style="text-decoration:none; color:#c77d9d; font-size:13px;">Forgot password?</a>
+                <a href="#" style="text-decoration:none; color:#1ad361; font-size:13px;">Forgot password?</a>
             </div>
 
             <button class="btn-main w-100 mb-4">LOGIN</button>
@@ -352,8 +354,10 @@ body {
 
         <div class="form-box signup-form form-hidden" id="signupForm">
             <div class="logo">
-                <img src="logo.png" alt="ANIMEALS Logo">
-            </div>
+    <video autoplay muted loop playsinline>
+        <source src="vid.mp4">
+    </video>
+</div>
             <h4 class="mb-1">CREATE YOUR ACCOUNT</h4>
             <p class="description-text">Join us and enjoy delicious meals delivered fast.</p>
             
@@ -361,7 +365,7 @@ body {
             <input type="email" class="form-control" placeholder="Email">
             
             <div class="pass-wrapper">
-                <input type="password" class="form-control" placeholder="Password" id="signupPass">
+                <input type="password" class="form-control" placeholder="Password (9 characters)" id="signupPass">
                 <i class="bi bi-eye-slash eye-icon" onclick="togglePass('signupPass', this)"></i>
             </div>
 
