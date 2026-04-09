@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMEALS | Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #fdfaf7;
+            height: 100vh;
+            overflow: hidden; /* Page is not scrollable */
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+        }
+
+        /* ========== SIDEBAR (Original Design Restored) ========== */
+        .sidebar {
+            background: linear-gradient(180deg, #6730ff, #8153ff);
+            color: #fff;
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+            border-top-right-radius: 35px;
+            border-bottom-right-radius: 35px;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-size: 24px; 
+            font-weight: 800; 
+            padding-left: 10px; 
+            margin-bottom: 20px;
+        }
+
+        .profile { text-align: center; padding: 10px 0; }
+        .profile img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #fff; margin-bottom: 10px; }
+
+        .menu { display: flex; flex-direction: column; gap: 5px; margin-top: 15px; }
+        
+        .menu a {
+            text-decoration: none; 
+            color: #fff; 
+            padding: 12px 15px; 
+            border-radius: 12px;
+            display: flex; 
+            align-items: center; 
+            font-size: 14px; 
+            transition: .25s; 
+            cursor: pointer;
+        }
+
+        .menu a:hover, .menu a.active { background: rgba(255,255,255,0.25); }
+        .menu a i { margin-right: 12px; font-size: 18px; }
+
+        .logout-btn { 
+            margin-top: auto; 
+            background: rgba(0,0,0,0.1); 
+            text-align: center; 
+            padding: 12px; 
+            border-radius: 15px; 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: #ff4d4d; }
+
+        /* ========== MAIN SECTION ========== */
+        .main {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 100vh;
+        }
+
+        .topbar { display: flex; justify-content: space-between; align-items: center; }
+        
+        .search-container { display: flex; gap: 10px; align-items: center; }
+        
+        .search {
+            background: #fff; 
+            padding: 10px 15px; 
+            border-radius: 12px;
+            width: 350px; 
+            display: flex; 
+            align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .search input { border: none; outline: none; padding-left: 10px; width: 100%; }
+
+        .filter-btn {
+            background: #fff; padding: 10px; border-radius: 12px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* ========== CONTENT GRID ========== */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            flex: 1;
+            min-height: 0; 
+        }
+
+        .left-col { display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+        .right-col { display: flex; flex-direction: column; gap: 20px; min-height: 0; overflow-y: auto; padding-right: 5px;}
+
+        /* SQUARE SHOPS BOX (Scrollable) */
+        .shops-scroll-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            flex: 1;
+            overflow-y: auto; 
+        }
+
+        .shops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .shop-card {
+            background: #fdfdfd;
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        .shop-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .shop-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
+        .shop-card b { font-size: 14px; color: #333; display: block; }
+
+        /* RIGHT SIDE ELEMENTS */
+        .best-sellers-box, .feed-box, .history-box {
+            background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .mini-food-item {
+            display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-bottom: 10px; border-bottom: 1px solid #f8f8f8;
+        }
+        .mini-food-item img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
+        .mini-food-item div { flex: 1; }
+        .mini-food-item b { font-size: 13px; display: block; }
+        .mini-food-item span { font-size: 12px; color: #ff7e5f; font-weight: 600; }
+
+        /* FOOD FEED (Latest Only) */
+        .post-latest { margin-top: 10px; }
+        .post-latest img { width: 100%; border-radius: 15px; margin-top: 10px; max-height: 150px; object-fit: cover; }
+
+        .history-item { font-size: 13px; padding: 10px 0; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #feb47b; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <div class="brand"><i class="bi bi-egg-fried"></i> ANIMEALS</div>
+        
+        <div class="profile">
+            <img src="images/jazz.jpg" alt="Profile">
+            <h4>Jazzmin Roice Ann Andres</h4>
+            <small>202330691</small>
+        </div>
+
+        <div class="menu">
+            <a class="active"><i class="bi bi-grid"></i> Dashboard</a>
+            <a><i class="bi bi-journal-text"></i> Menu</a>
+                        <a><i class="bi bi-bag"></i> My Orders</a>
+                                    <a><i class="bi bi-gear"></i>Order History</a>
+
+
+                        <a><i class="bi bi-gear"></i> Food Feed</a>
+
+            <a><i class="bi bi-gear"></i> Settings</a>
+        </div>
+
+        <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Log out</a>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="search-container">
+                <div class="search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search shops in Food Square...">
+                </div>
+                <div class="filter-btn"><i class="bi bi-sliders"></i></div>
+            </div>
+            
+            <div style="display:flex; gap:25px; align-items:center;">
+                <div style="position:relative; cursor:pointer;">
+                    <i class="bi bi-cart3" style="font-size:24px; color: #444;"></i>
+                    <span style="position:absolute; top:-5px; right:-8px; background:#ff4d4d; color:white; font-size:10px; padding:2px 6px; border-radius:50%;">3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="left-col">
+                <h3 style="color:#333; font-size: 20px;">Restaurants</h3>
+                <div class="shops-scroll-box">
+                    <div class="shops-grid">
+                        <div class="shop-card">
+                            <img src="https://media.interaksyon.com/wp-content/uploads/2025/12/Potato-Corner.jpg">
+                            <b>Potato Corner</b>
+                        </div>
+                        <div class="shop-card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeTggzvwbTg50FxX9hui5fdFfHd8lrxNMAVQ&s">
+                            <b>Hiraya</b>
+                        </div>
+                        <div class="shop-card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxyt4Oz8eHWttaY6k7e_rlYUn0qjcNGQrZnA&s">
+                            <b>Master Siomai</b>
+                        </div>
+                        <div class="shop-card">
+                            <img src="https://static.wixstatic.com/media/52e0bf_15cfb2f1665a46269767abf191d78a41~mv2.png/v1/crop/x_583,y_721,w_3240,h_3566/fill/w_280,h_308,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/52e0bf_15cfb2f1665a46269767abf191d78a41~mv2.png">
+                            <b>Bacsilog</b>
+                        </div>
+                        <div class="shop-card">
+                            <img src="https://panlasangpinoy.com/wp-content/uploads/2025/12/Filipino-Fish-and-Vegetable-Stew-750x750.jpg">
+                            <b>Jefcee's</b>
+                        </div>
+                        <div class="shop-card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToDk9K2Esuwk4X9T8CB6YaNwA1nUoZnGUQfA&s">
+                            <b>Darlynn's</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="best-sellers-box">
+                    <h4 style="font-size:14px; color:#444; border-bottom: 2px solid #ff7e5f; display:inline-block; padding-bottom:3px;">TOP 3 BEST SELLERS</h4>
+                    <div class="mini-food-item">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
+                        <div><b>Cheese Burger</b><span>₱120</span></div>
+                        <i class="bi bi-plus-circle-fill" style="color:#ff7e5f; cursor:pointer; font-size: 20px;"></i>
+                    </div>
+                    <div class="mini-food-item">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100">
+                        <div><b>Chicken Rice</b><span>₱85</span></div>
+                        <i class="bi bi-plus-circle-fill" style="color:#ff7e5f; cursor:pointer; font-size: 20px;"></i>
+                    </div>
+                    <div class="mini-food-item" style="border:none;">
+                        <img src="https://pampangasbest.store/cdn/shop/products/siomai-250g-2.jpg?v=1633240920">
+                        <div><b>Siomai Platter</b><span>₱60</span></div>
+                        <i class="bi bi-plus-circle-fill" style="color:#ff7e5f; cursor:pointer; font-size: 20px;"></i>
+                    </div>
+                </div>
+
+                <div class="feed-box">
+                    <h4 style="font-size:14px; color:#444;">LATEST FOOD FEED</h4>
+                    <div class="post-latest">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="images/1.jpg" style="width:30px; height:30px; border-radius:50%;">
+                            <span style="font-size:12px; font-weight:600;">@yo_yo</span>
+                        </div>
+                        <p style="font-size:12px; color:#555; margin-top:8px;">The Sisig from Grill Master is fire today! 🔥 Highly recommend.</p>
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400">
+                    </div>
+                </div>
+
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

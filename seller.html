@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMEALS | Seller Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f3f7f5;
+            height: 100vh;
+            overflow: hidden; /* Dashboard page not scrollable */
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+        }
+
+        /* ========== SIDEBAR (Smooth Curved Edges) ========== */
+       .sidebar{
+
+background:linear-gradient(180deg,#0f7b55,#1dbf73);
+color:#fff;
+
+padding:25px 18px;
+
+display:flex;
+flex-direction:column;
+
+border-top-right-radius:35px;
+border-bottom-right-radius:35px;
+
+box-shadow:5px 0 15px rgba(0,0,0,0.1);
+
+}
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            padding-left: 10px;
+        }
+
+        .profile {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .profile img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            transition: 0.3s;
+        }
+
+        .profile:hover img {
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        .profile .edit-hint {
+            display: none;
+            position: absolute;
+            top: 35%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: #1dbf73
+        }
+
+        .profile:hover .edit-hint { display: block; }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .menu a{
+        text-decoration:none;
+        color:#fff;
+        padding:11px 14px;
+        border-radius:12px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        font-size:15px;
+        transition:.25s;
+        }
+
+        .menu a:hover, .menu a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .badge-red {
+            background: #ff4d4d;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 15px;
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover { background: #ff4d4d; }
+
+        /* ========== MAIN SECTION ========== */
+        .main {
+            padding: 25px 25px 25px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 100vh;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #333;
+        }
+
+        .top-right-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search {
+            background: #fff;
+            padding: 8px 15px;
+            border-radius: 10px;
+            width: 325px; /* Shorter as requested */
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .search input {
+            border: none; 
+            outline: none; 
+            padding-left: 20px; 
+            width: 100%;
+        }
+
+        .icons i { font-size: 22px; cursor: pointer; color: #555; position: relative; }
+
+        /* ========== CONTENT GRID ========== */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            flex: 1;
+            min-height: 0; /* Important for inner scrolling */
+        }
+
+        .left-col, .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        /* ORDERS BOX (Scrollable) */
+        .orders-container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 60%;
+        }
+
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .orders-list {
+            overflow-y: auto; /* Scrollable box */
+            padding-right: 5px;
+        }
+
+        .order-card {
+            background: #f9fdfb;
+            border: 1px solid #eef2f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-user { display: flex; gap: 12px; align-items: center; }
+        .order-user img { width: 45px; height: 45px; border-radius: 50%; }
+        .order-details p { font-size: 13px; color: #666; }
+        .order-details b { color: #1dbf73; }
+
+        .accept-btn {
+            background: #1dbf73; color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer;
+        }
+
+        /* STATS (Grid) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            border-left: 5px solid #1dbf73;
+            transition: 0.3s;
+        }
+        .stat-box:hover { transform: translateY(-3px); }
+        .stat-box h2 { font-size: 22px; color: #333; }
+        .stat-box p { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* TOP SELLING */
+        .top-selling {
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .product-img {
+            width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #eee;
+        }
+
+        .product-info b { display: block; font-size: 14px; }
+        .product-info span { font-size: 12px; color: #999; }
+
+        /* NEWS FEED (Facebook/X style) */
+        .feed-container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .feed-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+        }
+
+        .expand-btn { color: #1dbf73; cursor: pointer; font-size: 20px; }
+
+        .feed-scroll { overflow-y: auto; }
+
+        .post {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 15px 0;
+        }
+
+        .post-user { display: flex; gap: 10px; align-items: center; margin-bottom: 8px;}
+        .post-user img { width: 35px; height: 35px; border-radius: 50%; }
+        .post-content{
+margin:8px 0;
+font-size:14px;
+}
+.post-meta{
+
+font-size:12px;
+color:#888;
+
+}
+
+.post-time{
+
+color:#1dbf73;
+font-weight:600;
+
+}
+
+
+        .post-media { width: 100%; border-radius: 12px; margin-bottom: 8px; }
+        
+        .post-actions { display: flex; gap: 20px; color: #666; font-size: 14px; }
+        .post-actions i { cursor: pointer; transition: 0.2s; }
+        .post-actions i:hover { color: #1dbf73; }
+
+        /* MODAL FOR EXPANDED FEED */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 600px;
+            height: 80vh;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 25px; cursor: pointer;
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+/* Glowing Badge Animation */
+.badge-red {
+    background: #ff4d4d;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+    animation: pulse-glow 2s infinite;
+    border: none;
+}
+
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 5px rgba(255, 77, 77, 0.6); }
+    50% { box-shadow: 0 0 15px rgba(255, 77, 77, 0.9); }
+    100% { box-shadow: 0 0 5px rgba(255, 77, 77, 0.6); }
+}
+
+/* Container & List Styling */
+.orders-container {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.orders-header {
+    margin-bottom: 20px;
+}
+
+.orders-header span.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Order Card - Flexbox pushes button to the right */
+.order-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 18px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between; /* Pushes content and button apart */
+    align-items: center;
+    transition: 0.3s;
+}
+
+.order-user {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.order-user img {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px; /* Rounded square style from design */
+    object-fit: cover;
+}
+
+.order-details strong {
+    font-size: 15px;
+    color: #333;
+    display: block;
+}
+
+.order-details p {
+    font-size: 13px;
+    color: #777;
+    margin: 2px 0;
+}
+
+.order-details .price {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1dbf73;
+}
+
+/* Updated Accept Button */
+.accept-btn {
+    background: #1dbf73;
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.accept-btn:hover {
+    background: #179e5e;
+}
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <div class="sidebar">
+        <div class="brand">
+<img src="logo.png"  style="width: 30px; height: 30px; object-fit: contain;background: transparent;  vertical-align: middle;">
+ANIMEALS        </div>
+
+        <div class="profile">
+            <img src="images/7.jpg" alt="Profile">
+            <div class="edit-hint">PROFILE</div>
+            <h4 style="margin-top:10px;">Wayne Vasquez</h4>
+            <small style="opacity: 0.8;">Potato Corner</small>
+        </div>
+
+        <div class="menu">
+            <a class="active">
+                <span><i class="bi bi-grid"></i> Dashboard</span>
+            </a>
+            <a>
+                <span><i class="bi bi-journal-text"></i> Menu</span>
+            </a>
+            <a>
+            <span>
+                <i class="bi bi-bag"></i>
+                 Orders
+            </span>
+            <span class="badge-red">4</span>
+
+            </a>
+            <a>
+                <span><i class="bi bi-journal-text"></i> Transaction</span>
+            </a>
+<a>
+<span><i class="bi bi-bar-chart"></i> Analytics</span>
+</a>
+
+<a>
+<span><i class="bi bi-star"></i> Reviews</span>
+</a>
+
+<a>
+<span><i class="bi bi-gear"></i> Settings</span>
+</a>
+</div>
+
+
+        <a href="losign.html" class="logout-btn">
+            <i class="bi bi-box-arrow-right"></i> Log out
+        </a>
+    </div>
+
+    <div class="main">
+        
+        <div class="topbar">
+            <div class="page-title">DASHBOARD</div>
+            <div class="top-right-nav">
+                <div class="search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="icons">
+                    <i class="bi bi-bell"><span class="badge-red" style="position:absolute; top:-5px; right:-10px; font-size:9px;">4</span></i>
+                    <i class="bi bi-envelope" style="margin-left: 20px;"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            
+            <div class="left-col">
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <button onclick="location.href='orders_page.html'" style="background:none; border:none; font-size:18px; font-weight:700; cursor:pointer;">
+                            Live Orders <span class="badge-red">4</span>
+                        </button>
+                    </div>
+                    
+                   <div class="orders-list">
+        <div class="order-card">
+            <div class="order-user">
+                <img src="images/9.jpg" alt="User">
+                <div class="order-details">
+                    <strong>Linda Walker</strong>
+                    <p>Ordered: <b>2x Tera Fries (Barbeque)</b></p>
+                    <p><i class="bi bi-wallet2"></i> G-Cash | <i class="bi bi-clock"></i> 10:00 AM</p>
+                    <span class="price">₱350.00</span>
+                </div>
+            </div>
+            <button class="accept-btn">Accept</button>
+        </div>
+                      <div class="order-card">
+            <div class="order-user">
+                <img src="images/6.jpg" alt="User">
+                <div class="order-details">
+                    <strong>Ben Santos</strong>
+                    <p>Ordered: <b>1x Giga Fries (Cheese)</b></p>
+                    <p><i class="bi bi-cash"></i> Cash | <i class="bi bi-clock"></i> 10:20 AM</p>
+                    <span class="price">₱150.00</span>
+                </div>
+            </div>
+            <button class="accept-btn">Accept</button>
+        </div>
+                        <div class="order-card">
+                            <div class="order-user">
+                                <img src="images/2.jpg">
+                                <div class="order-details">
+                                    <strong>Liza Sober</strong>
+                                    <p>Ordered: <b>3x Jumbo (Cheese)</b></p>
+                                    <p>COD | Delivery - CBA Building</p>
+                    <span class="price">₱200.00</span>
+                                </div>
+                            </div>
+                            <button class="accept-btn">Accept</button>
+                        </div>
+                        <div class="order-card">
+                            <div class="order-user">
+                                <img src="images/8.jpg">
+                                <div class="order-details">
+                                    <strong>Ken Chan</strong>
+                                    <p>Ordered: <b>1x Curly Fries (Chili Cheese)</b></p>
+                                    <p>COD | Takeout</p>
+                    <span class="price">₱95.00</span>
+                                </div>
+                            </div>
+                            <button class="accept-btn">Accept</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h2>₱20.00K</h2>
+                        <p>Total Sales</p>
+                    </div>
+                    <div class="stat-box">
+                        <h2>₱67.00K</h2>
+                        <p>Avg Sales</p>
+                    </div>
+                    <div class="stat-box">
+                        <h2>4.00 ⭐</h2>
+                        <p>Avg Rating</p>
+                    </div>
+                    <div class="stat-box">
+                        <h2>676</h2>
+                        <p>Total Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="top-selling">
+                    <h3 style="font-size: 16px; color: #333;">TOP SELLING PRODUCTS</h3>
+                    
+                    <div class="product-item">
+                        <span>1</span>
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100" class="product-img">
+                        <div class="product-info">
+                            <b>Adobo Special</b>
+                            <span>Canteen Central</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <span>2</span>
+                        <img src="images/3.jpg" class="product-img">
+                        <div class="product-info">
+                            <b>Fluffy Pancakes</b>
+                            <span>Sweet Treats</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <span>3</span>
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=100" class="product-img">
+                        <div class="product-info">
+                            <b>Grilled BBQ</b>
+                            <span>Grill Master</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feed-container">
+                    <div class="feed-header">
+                        <h3 style="font-size: 16px;">Food Feed</h3>
+                        <i class="bi bi-arrows-angle-expand expand-btn" onclick="toggleFeed()"></i>
+                    </div>
+                    <div class="feed-scroll">
+                        <div class="post">
+                            <div class="post-user">
+                                <img src="images/2.jpg">
+                                <strong>PotPot</strong>
+                                <div class="post-meta">Hiraya ·</div>
+                                <span class="post-time">
+3 mins ago
+</span>
+                            </div>
+                            <div class="post-content">Best lunch today at the canteen! 🍲</div>
+                            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400" class="post-media">
+                            <div class="post-actions">
+                                <i class="bi bi-heart"> 20</i>
+                                <i class="bi bi-chat"> 5</i>
+                                <i class="bi bi-arrow-repeat"> 2</i>
+                            </div>
+                        </div>
+                        <div class="post">
+                            <div class="post-user">
+                                <img src="images/5.jpg">
+                                <strong>Valenitine</strong>
+                            </div>
+                            <div class="post-content">The burger was super juicy! Highly recommended.</div>
+                            <div class="post-actions">
+                                <i class="bi bi-heart"> 15</i>
+                                <i class="bi bi-chat"> 2</i>
+                                <i class="bi bi-arrow-repeat"> 1</i>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="feedModal">
+    <div class="modal-content">
+        <i class="bi bi-x-lg close-modal" onclick="toggleFeed()"></i>
+        <h2 style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Student News Feed</h2>
+        <div class="feed-scroll" style="height: 100%;">
+            <div id="expanded-posts"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleFeed() {
+        const modal = document.getElementById('feedModal');
+        const isVisible = modal.style.display === 'flex';
+        
+        if (!isVisible) {
+            // Copy posts to modal for demo
+            document.getElementById('expanded-posts').innerHTML = document.querySelector('.feed-scroll').innerHTML;
+            modal.style.display = 'flex';
+        } else {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
