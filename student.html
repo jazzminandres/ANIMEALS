@@ -4,285 +4,2489 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANIMEALS | Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-        body {
-            background: #fdfaf7;
-            height: 100vh;
-            overflow: hidden; /* Page is not scrollable */
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Outfit',sans-serif;
         }
 
-        .dashboard-container {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            height: 100vh;
+        body{
+            background:#fdfaf7;
+            height:100vh;
+            overflow:hidden;
+            color:#2d2d2d;
         }
 
-        /* ========== SIDEBAR (Original Design Restored) ========== */
-        .sidebar {
-            background: linear-gradient(180deg, #6730ff, #8153ff);
-            color: #fff;
-            padding: 25px 18px;
-            display: flex;
-            flex-direction: column;
-            border-top-right-radius: 35px;
-            border-bottom-right-radius: 35px;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        .dashboard-container{
+            display:grid;
+            grid-template-columns:240px 1fr;
+            height:100vh;
         }
 
-        .brand { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            font-size: 24px; 
-            font-weight: 800; 
-            padding-left: 10px; 
-            margin-bottom: 20px;
+        /* SIDEBAR */
+        .sidebar{
+            background:linear-gradient(165deg,#0f7a4a,#158f5f,#1faa6c);
+            color:#fff;
+            padding:25px 18px;
+            display:flex;
+            flex-direction:column;
+            border-top-right-radius:40px;
+            border-bottom-right-radius:40px;
+            box-shadow:12px 0 40px rgba(0,0,0,0.15);
+            z-index:100;
         }
 
-        .profile { text-align: center; padding: 10px 0; }
-        .profile img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #fff; margin-bottom: 10px; }
-
-        .menu { display: flex; flex-direction: column; gap: 5px; margin-top: 15px; }
-        
-        .menu a {
-            text-decoration: none; 
-            color: #fff; 
-            padding: 12px 15px; 
-            border-radius: 12px;
-            display: flex; 
-            align-items: center; 
-            font-size: 14px; 
-            transition: .25s; 
-            cursor: pointer;
+        .brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            font-size:24px;
+            font-weight:800;
+            margin-bottom:25px;
         }
 
-        .menu a:hover, .menu a.active { background: rgba(255,255,255,0.25); }
-        .menu a i { margin-right: 12px; font-size: 18px; }
+      .brand img{
+width:32px;
+height:32px;
+object-fit:contain;
+margin-bottom: 10px;
+}
 
-        .logout-btn { 
-            margin-top: auto; 
-            background: rgba(0,0,0,0.1); 
-            text-align: center; 
-            padding: 12px; 
-            border-radius: 15px; 
-            color: white; 
-            text-decoration: none; 
-            font-weight: 600; 
-            transition: 0.3s;
-        }
-        .logout-btn:hover { background: #ff4d4d; }
-
-        /* ========== MAIN SECTION ========== */
-        .main {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            height: 100vh;
+        .profile{
+            text-align:center;
+            margin-bottom:25px;
         }
 
-        .topbar { display: flex; justify-content: space-between; align-items: center; }
-        
-        .search-container { display: flex; gap: 10px; align-items: center; }
-        
-        .search {
-            background: #fff; 
-            padding: 10px 15px; 
-            border-radius: 12px;
-            width: 350px; 
-            display: flex; 
-            align-items: center; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .search input { border: none; outline: none; padding-left: 10px; width: 100%; }
-
-        .filter-btn {
-            background: #fff; padding: 10px; border-radius: 12px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .profile img{
+            width:75px;
+            height:75px;
+            border-radius:50%;
+            border:3px solid rgba(255,255,255,0.4);
+            object-fit:cover;
         }
 
-        /* ========== CONTENT GRID ========== */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 20px;
-            flex: 1;
-            min-height: 0; 
+        .profile h4{
+            font-size:15px;
+            margin-top:12px;
+            font-weight:600;
         }
 
-        .left-col { display: flex; flex-direction: column; gap: 20px; min-height: 0; }
-        .right-col { display: flex; flex-direction: column; gap: 20px; min-height: 0; overflow-y: auto; padding-right: 5px;}
-
-        /* SQUARE SHOPS BOX (Scrollable) */
-        .shops-scroll-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            flex: 1;
-            overflow-y: auto; 
+        .profile small{
+            font-size:12px;
+            opacity:0.7;
         }
 
-        .shops-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+        .menu{
+            display:flex;
+            flex-direction:column;
+            gap:8px;
         }
 
-        .shop-card {
-            background: #fdfdfd;
-            border-radius: 15px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid #f0f0f0;
-        }
-        .shop-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .shop-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
-        .shop-card b { font-size: 14px; color: #333; display: block; }
-
-        /* RIGHT SIDE ELEMENTS */
-        .best-sellers-box, .feed-box, .history-box {
-            background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .menu a{
+            text-decoration:none;
+            color:rgba(255,255,255,0.85);
+            padding:12px 16px;
+            border-radius:18px;
+            display:flex;
+            align-items:center;
+            font-size:14px;
+            transition:0.3s;
+            cursor:pointer;
         }
 
-        .mini-food-item {
-            display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-bottom: 10px; border-bottom: 1px solid #f8f8f8;
+        .menu a i{
+            margin-right:14px;
+            font-size:20px;
         }
-        .mini-food-item img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
-        .mini-food-item div { flex: 1; }
-        .mini-food-item b { font-size: 13px; display: block; }
-        .mini-food-item span { font-size: 12px; color: #ff7e5f; font-weight: 600; }
 
-        /* FOOD FEED (Latest Only) */
-        .post-latest { margin-top: 10px; }
-        .post-latest img { width: 100%; border-radius: 15px; margin-top: 10px; max-height: 150px; object-fit: cover; }
+        .menu a:hover{
+            background:rgba(255,255,255,0.15);
+        }
 
-        .history-item { font-size: 13px; padding: 10px 0; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; }
+        .menu a.active{
+            background:#fff;
+            color:#0f7a4a;
+            font-weight:700;
+            box-shadow:0 10px 20px rgba(0,0,0,0.1);
+        }
 
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #feb47b; border-radius: 10px; }
+        .logout-btn{
+            margin-top:auto;
+            background:rgba(255,255,255,0.15);
+            text-align:center;
+            padding:12px;
+            border-radius:18px;
+            color:white;
+            text-decoration:none;
+            font-weight:700;
+            transition:0.3s ease;
+        }
+
+        .logout-btn:hover{
+            background:#dc3545;
+            box-shadow:0 8px 20px rgba(220, 53, 69, 0.3);
+            transform:translateY(-2px);
+        }
+
+        /* MAIN */
+        .main{
+            padding:25px;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            background:linear-gradient(135deg, #fdfaf7 0%, #f5f0eb 100%);
+        }
+
+        .page{
+            display:none;
+            height:100%;
+            flex-direction:column;
+            animation:slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page.active-page{
+            display:flex;
+        }
+
+        /* TOPBAR */
+        .topbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+        }
+
+        .search-row{
+            display:flex;
+            gap:12px;
+            width:62%;
+        }
+
+        .search-box{
+            background:#fff;
+            padding:12px 20px;
+            border-radius:20px;
+            flex:1;
+            display:flex;
+            align-items:center;
+            border:1.5px solid #eee;
+        }
+
+        .search-box input{
+            border:none;
+            outline:none;
+            padding-left:12px;
+            width:100%;
+            font-size:15px;
+        }
+
+        .topbar-right{
+            display:flex;
+            align-items:center;
+            gap:20px;
+        }
+
+        .profile-btn{
+            background:linear-gradient(135deg, #0f7a4a 0%, #158f5f 100%);
+            color:#fff;
+            border:none;
+            padding:10px 20px;
+            border-radius:20px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            cursor:pointer;
+            transition:0.3s;
+            font-weight:600;
+            font-size:13px;
+            box-shadow:0 4px 12px rgba(15, 122, 74, 0.2);
+        }
+
+        .profile-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 8px 20px rgba(15, 122, 74, 0.3);
+            background:linear-gradient(135deg, #0c633c 0%, #0f7a4a 100%);
+        }
+
+        .profile-btn img{
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            object-fit:cover;
+            border:2px solid rgba(255,255,255,0.3);
+        }
+
+        .profile-btn-text{
+            display:flex;
+            flex-direction:column;
+            text-align:left;
+        }
+
+        .profile-btn-name{
+            font-weight:700;
+            font-size:13px;
+        }
+
+        .profile-btn-id{
+            font-size:11px;
+            opacity:0.9;
+        }
+
+        .cart-icon{
+            cursor:pointer;
+            position:relative;
+            font-size:24px;
+            color:#0f7a4a;
+            transition:0.3s;
+        }
+
+        .cart-icon:hover{
+            transform:scale(1.1);
+        }
+
+        /* GRID */
+        .content-grid{
+            display:grid;
+            grid-template-columns:1.6fr 1fr;
+            gap:25px;
+            flex:1;
+            min-height:0;
+        }
+
+        .left-col{
+            display:flex;
+            flex-direction:column;
+            min-height:0;
+        }
+
+        .restaurants-container{
+            flex:1;
+            overflow-y:auto;
+            padding:10px;
+            margin:-10px;
+            scrollbar-width:thin;
+            scrollbar-color:#158f5f transparent;
+        }
+
+        .restaurants-container::-webkit-scrollbar{
+            width:6px;
+        }
+
+        .restaurants-container::-webkit-scrollbar-thumb{
+            background:#158f5f;
+            border-radius:10px;
+        }
+
+        /* RIGHT */
+        .right-col{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+            height:100%;
+            min-height:0;
+            overflow:hidden;
+        }
+
+        .section-title{
+            font-size:22px;
+            font-weight:800;
+            margin-bottom:20px;
+        }
+
+        .shops-grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            grid-auto-rows:200px;
+            gap:20px;
+        }
+
+        .shop-card{
+            background:#fff;
+            border-radius:28px;
+            padding:12px;
+            text-align:center;
+            cursor:pointer;
+            transition:0.4s;
+            border:1px solid #f0f0f0;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            height:100%;
+        }
+
+        .shop-card:hover{
+            transform:translateY(-8px);
+            box-shadow:0 20px 30px rgba(0,0,0,0.08);
+            border-color:#158f5f;
+        }
+
+        .shop-card img{
+            width:100%;
+            height:70%;
+            object-fit:cover;
+            border-radius:22px;
+            margin-bottom:8px;
+        }
+
+        .shop-card b{
+            font-size:14px;
+            font-weight:700;
+        }
+
+        /* WIDGET */
+        .widget-box{
+            background:#fff;
+            padding:20px 24px;
+            border-radius:35px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.03);
+            display:flex;
+            flex-direction:column;
+            flex:1;
+            min-height:0;
+        }
+
+        .widget-box.trending{
+            flex:1.3;
+        }
+
+        .widget-title{
+            font-size:13px;
+            font-weight:800;
+            color:#b0b0b0;
+            letter-spacing:1px;
+            margin-bottom:10px;
+        }
+
+        .widget-content{
+            display:flex;
+            flex-direction:column;
+            justify-content:space-around;
+            flex:1;
+        }
+
+        .mini-food-item{
+            display:flex;
+            align-items:center;
+            gap:16px;
+            padding:8px 0;
+        }
+
+        .mini-food-item img{
+            width:50px;
+            height:50px;
+            border-radius:15px;
+            object-fit:cover;
+        }
+
+        .food-info{
+            flex:1;
+        }
+
+        .food-info b{
+            font-size:14px;
+            display:block;
+        }
+
+        .food-info span{
+            font-size:14px;
+            font-weight:800;
+            margin-top:2px;
+        }
+
+        .add-btn{
+            background:#0f7a4a;
+            color:white;
+            border:none;
+            width:34px;
+            height:34px;
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .add-btn:hover{
+            background:#0c633c;
+            transform:scale(1.1);
+        }
+
+        /* ========== EXPLORE MENU PAGE ========== */
+        .menu-filter{
+            display:flex;
+            gap:12px;
+            margin-bottom:25px;
+            flex-wrap:wrap;
+        }
+
+        .filter-btn{
+            padding:10px 20px;
+            border:2px solid #e0e0e0;
+            background:#fff;
+            border-radius:20px;
+            cursor:pointer;
+            transition:0.3s;
+            font-weight:600;
+            color:#666;
+        }
+
+        .filter-btn:hover, .filter-btn.active{
+            border-color:#0f7a4a;
+            background:#0f7a4a;
+            color:#fff;
+        }
+
+        .menu-items-grid{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:20px;
+            overflow-y:auto;
+            padding:10px;
+            margin:-10px;
+        }
+
+        .menu-item-card{
+            background:#fff;
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 8px 20px rgba(0,0,0,0.06);
+            transition:0.3s;
+            cursor:pointer;
+        }
+
+        .menu-item-card:hover{
+            transform:translateY(-8px);
+            box-shadow:0 16px 32px rgba(15, 122, 74, 0.15);
+        }
+
+        .menu-item-card img{
+            width:100%;
+            height:180px;
+            object-fit:cover;
+        }
+
+        .menu-item-info{
+            padding:16px;
+        }
+
+        .menu-item-name{
+            font-size:15px;
+            font-weight:700;
+            margin-bottom:8px;
+        }
+
+        .menu-item-desc{
+            font-size:12px;
+            color:#999;
+            margin-bottom:12px;
+            line-height:1.4;
+        }
+
+        .menu-item-footer{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .menu-item-price{
+            font-size:16px;
+            font-weight:800;
+            color:#0f7a4a;
+        }
+
+        .menu-item-btn{
+            background:#0f7a4a;
+            color:#fff;
+            border:none;
+            padding:8px 16px;
+            border-radius:12px;
+            cursor:pointer;
+            transition:0.3s;
+            font-weight:600;
+        }
+
+        .menu-item-btn:hover{
+            background:#0c633c;
+        }
+
+        /* ========== MY ORDERS PAGE ========== */
+        .orders-container{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            overflow-y:auto;
+            padding:10px;
+            margin:-10px;
+        }
+
+        .order-card{
+            background:#fff;
+            border-radius:20px;
+            padding:20px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.06);
+            border-left:5px solid #0f7a4a;
+        }
+
+        .order-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:15px;
+            padding-bottom:15px;
+            border-bottom:1px solid #f0f0f0;
+        }
+
+        .order-number{
+            font-size:16px;
+            font-weight:800;
+        }
+
+        .order-status{
+            padding:6px 16px;
+            border-radius:20px;
+            font-size:12px;
+            font-weight:700;
+        }
+
+        .order-status.pending{
+            background:#fff3cd;
+            color:#856404;
+        }
+
+        .order-status.completed{
+            background:#d4edda;
+            color:#155724;
+        }
+
+        .order-status.cancelled{
+            background:#f8d7da;
+            color:#721c24;
+        }
+
+        .order-items{
+            margin-bottom:15px;
+        }
+
+        .order-item{
+            display:flex;
+            gap:12px;
+            margin-bottom:10px;
+            font-size:14px;
+        }
+
+        .order-item img{
+            width:60px;
+            height:60px;
+            border-radius:12px;
+            object-fit:cover;
+        }
+
+        .order-item-details{
+            flex:1;
+        }
+
+        .order-item-name{
+            font-weight:700;
+            margin-bottom:4px;
+        }
+
+        .order-item-qty{
+            font-size:12px;
+            color:#999;
+        }
+
+        .order-footer{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding-top:15px;
+            border-top:1px solid #f0f0f0;
+        }
+
+        .order-date{
+            font-size:12px;
+            color:#999;
+        }
+
+        .order-total{
+            font-size:18px;
+            font-weight:800;
+            color:#0f7a4a;
+        }
+
+        .order-action-btn{
+            background:#0f7a4a;
+            color:#fff;
+            border:none;
+            padding:8px 16px;
+            border-radius:12px;
+            cursor:pointer;
+            transition:0.3s;
+            font-weight:600;
+            font-size:12px;
+        }
+
+        .order-action-btn:hover{
+            background:#0c633c;
+        }
+
+        /* ========== FOOD FEED PAGE ========== */
+        .feed-container{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+            overflow-y:auto;
+            padding:10px;
+            margin:-10px;
+        }
+
+        .feed-post{
+            background:#fff;
+            border-radius:20px;
+            padding:20px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.06);
+            animation:slideIn 0.3s ease;
+        }
+
+        .feed-header{
+            display:flex;
+            gap:12px;
+            margin-bottom:16px;
+            align-items:center;
+        }
+
+        .feed-avatar{
+            width:48px;
+            height:48px;
+            border-radius:50%;
+            object-fit:cover;
+        }
+
+        .feed-user-info{
+            flex:1;
+        }
+
+        .feed-username{
+            font-weight:700;
+            font-size:14px;
+        }
+
+        .feed-time{
+            font-size:12px;
+            color:#999;
+        }
+
+        .feed-more{
+            cursor:pointer;
+            font-size:20px;
+            color:#999;
+        }
+
+        .feed-caption{
+            margin-bottom:16px;
+            font-size:14px;
+            line-height:1.5;
+        }
+
+        .feed-image{
+            width:100%;
+            border-radius:16px;
+            margin-bottom:16px;
+            max-height:400px;
+            object-fit:cover;
+        }
+
+        .feed-actions{
+            display:flex;
+            gap:20px;
+            padding-top:12px;
+            border-top:1px solid #f0f0f0;
+        }
+
+        .feed-action{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            cursor:pointer;
+            color:#999;
+            transition:0.3s;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .feed-action:hover{
+            color:#0f7a4a;
+        }
+
+        .feed-action i{
+            font-size:18px;
+        }
+
+        /* ========== SETTINGS PAGE ========== */
+        .settings-container{
+            display:grid;
+            grid-template-columns:300px 1fr;
+            gap:25px;
+            height:100%;
+            min-height:0;
+        }
+
+        .settings-menu{
+            background:#fff;
+            border-radius:20px;
+            padding:0;
+            box-shadow:0 8px 20px rgba(0,0,0,0.06);
+            overflow-y:auto;
+        }
+
+        .settings-menu-item{
+            padding:16px 24px;
+            cursor:pointer;
+            transition:0.3s;
+            border-left:4px solid transparent;
+            font-weight:600;
+            color:#666;
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .settings-menu-item:hover{
+            background:#f5f5f5;
+        }
+
+        .settings-menu-item.active{
+            border-left-color:#0f7a4a;
+            color:#0f7a4a;
+            background:#f0faf7;
+        }
+
+        .settings-content{
+            background:#fff;
+            border-radius:20px;
+            padding:30px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.06);
+            overflow-y:auto;
+            display:none;
+        }
+
+        .settings-content.active{
+            display:block;
+        }
+
+        .settings-title{
+            font-size:24px;
+            font-weight:800;
+            margin-bottom:30px;
+        }
+
+        .settings-group{
+            margin-bottom:30px;
+        }
+
+        .settings-label{
+            font-size:14px;
+            font-weight:700;
+            color:#0f7a4a;
+            margin-bottom:12px;
+            text-transform:uppercase;
+            letter-spacing:1px;
+        }
+
+        .settings-item{
+            display:flex;
+            flex-direction:column;
+            padding:16px;
+            background:#f9f9f9;
+            border-radius:12px;
+            margin-bottom:12px;
+        }
+
+        .settings-item-label{
+            font-weight:600;
+            color:#333;
+            font-size:14px;
+            margin-bottom:8px;
+        }
+
+        .settings-item-value{
+            color:#999;
+            font-size:14px;
+        }
+
+        .toggle-switch{
+            width:50px;
+            height:26px;
+            background:#ccc;
+            border-radius:13px;
+            cursor:pointer;
+            transition:0.3s;
+            position:relative;
+        }
+
+        .toggle-switch.active{
+            background:#0f7a4a;
+        }
+
+        .toggle-switch::after{
+            content:'';
+            position:absolute;
+            width:22px;
+            height:22px;
+            background:white;
+            border-radius:50%;
+            top:2px;
+            left:2px;
+            transition:0.3s;
+        }
+
+        .toggle-switch.active::after{
+            left:26px;
+        }
+
+        .settings-input{
+            width:100%;
+            padding:12px;
+            border:1px solid #e0e0e0;
+            border-radius:12px;
+            font-size:14px;
+            transition:0.3s;
+        }
+
+        .settings-input:focus{
+            outline:none;
+            border-color:#0f7a4a;
+            box-shadow:0 0 0 3px rgba(15, 122, 74, 0.1);
+        }
+
+        .settings-button{
+            background:#0f7a4a;
+            color:#fff;
+            border:none;
+            padding:12px 24px;
+            border-radius:12px;
+            cursor:pointer;
+            font-weight:700;
+            transition:0.3s;
+            margin-right:12px;
+        }
+
+        .settings-button:hover{
+            background:#0c633c;
+        }
+
+        .settings-button.cancel{
+            background:#e0e0e0;
+            color:#333;
+        }
+
+        .settings-button.cancel:hover{
+            background:#d0d0d0;
+        }
+
+        @media(max-width:1200px){
+            .shops-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+            .menu-items-grid{
+                grid-template-columns:repeat(3, 1fr);
+            }
+        }
+
+        @media(max-width:768px){
+            .settings-container{
+                grid-template-columns:1fr;
+            }
+        }
+
     </style>
 </head>
+
 <body>
 
 <div class="dashboard-container">
+
     <div class="sidebar">
-        <div class="brand"><i class="bi bi-egg-fried"></i> ANIMEALS</div>
-        
+        <div class="brand">
+            <img src="logoo.png">
+            ANIMEALS
+        </div>
+
         <div class="profile">
-            <img src="images/jazz.jpg" alt="Profile">
-            <h4>Jazzmin Roice Ann Andres</h4>
-            <small>202330691</small>
+            <img src="images/jazz.jpg">
+            <h4>Jazzmin Roice Ann</h4>
+            <small>ID: 202330691</small>
         </div>
 
         <div class="menu">
-            <a class="active"><i class="bi bi-grid"></i> Dashboard</a>
-            <a><i class="bi bi-journal-text"></i> Menu</a>
-                        <a><i class="bi bi-bag"></i> My Orders</a>
-                                    <a><i class="bi bi-gear"></i>Order History</a>
-
-
-                        <a><i class="bi bi-gear"></i> Food Feed</a>
-
-            <a><i class="bi bi-gear"></i> Settings</a>
+            <a class="active" onclick="showPage('dashboard',this)"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+            <a onclick="showPage('menu',this)"><i class="bi bi-compass"></i> Explore Menu</a>
+            <a onclick="showPage('orders-main',this)"><i class="bi bi-bag-heart"></i> My Orders</a>
+            <a onclick="showPage('feed',this)"><i class="bi bi-people"></i> Food Feed</a>
+            <a onclick="showPage('settings',this)"><i class="bi bi-gear"></i> Settings</a>
         </div>
 
-        <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Log out</a>
+        <a href="#" class="logout-btn">Log out</a>
     </div>
 
     <div class="main">
-        <div class="topbar">
-            <div class="search-container">
-                <div class="search">
-                    <i class="bi bi-search"></i>
-                    <input type="text" placeholder="Search shops in Food Square...">
+
+        <!-- DASHBOARD PAGE -->
+        <div id="dashboard" class="page active-page">
+
+            <div class="topbar">
+                <div class="search-row">
+                    <div class="search-box">
+                        <i class="bi bi-search" style="color:#0f7a4a"></i>
+                        <input type="text" placeholder="Craving something specific?">
+                    </div>
+                    <div style="background:#fff;padding:12px 15px;border-radius:18px;border:1.5px solid #eee;">
+                        <i class="bi bi-sliders2-vertical"></i>
+                    </div>
                 </div>
-                <div class="filter-btn"><i class="bi bi-sliders"></i></div>
-            </div>
-            
-            <div style="display:flex; gap:25px; align-items:center;">
-                <div style="position:relative; cursor:pointer;">
-                    <i class="bi bi-cart3" style="font-size:24px; color: #444;"></i>
-                    <span style="position:absolute; top:-5px; right:-8px; background:#ff4d4d; color:white; font-size:10px; padding:2px 6px; border-radius:50%;">3</span>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
                 </div>
             </div>
+
+            <div class="content-grid">
+
+                <div class="left-col">
+                    <h3 class="section-title">Food Square Restaurants</h3>
+                    <div class="restaurants-container">
+                        <div class="shops-grid">
+                            <div class="shop-card">
+                                <img src="https://media.interaksyon.com/wp-content/uploads/2025/12/Potato-Corner.jpg">
+                                <b>Potato Corner</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeTggzvwbTg50FxX9hui5fdFfHd8lrxNMAVQ&s">
+                                <b>Hiraya</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxyt4Oz8eHWttaY6k7e_rlYUn0qjcNGQrZnA&s">
+                                <b>Master Siomai</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://static.wixstatic.com/media/52e0bf_15cfb2f1665a46269767abf191d78a41~mv2.png">
+                                <b>Bacsilog</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://panlasangpinoy.com/wp-content/uploads/2025/12/Filipino-Fish-and-Vegetable-Stew-750x750.jpg">
+                                <b>Jefcee's</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToDk9K2Esuwk4X9T8CB6YaNwA1nUoZnGUQfA&s">
+                                <b>Darlynn's</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200">
+                                <b>Pizza Hub</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=200">
+                                <b>Burger King</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-col">
+
+                    <div class="widget-box trending">
+                        <div class="widget-title">TRENDING NOW</div>
+                        <div class="widget-content">
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
+                                <div class="food-info">
+                                    <b>Cheese Burger</b>
+                                    <span style="color:#0f7a4a;">₱120</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100">
+                                <div class="food-info">
+                                    <b>Chicken Rice</b>
+                                    <span style="color:#0f7a4a;">₱85</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=100">
+                                <div class="food-info">
+                                    <b>French Fries</b>
+                                    <span style="color:#0f7a4a;">₱50</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-box">
+                        <div class="widget-title">RECENTLY ADDED</div>
+                        <div class="widget-content">
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100">
+                                <div class="food-info">
+                                    <b>Pepperoni Pizza</b>
+                                    <span style="color:#0f7a4a;">₱250</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=100">
+                                <div class="food-info">
+                                    <b>Berry Smoothie</b>
+                                    <span style="color:#0f7a4a;">₱110</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="content-grid">
-            <div class="left-col">
-                <h3 style="color:#333; font-size: 20px;">Restaurants</h3>
-                <div class="shops-scroll-box">
-                    <div class="shops-grid">
-                        <div class="shop-card">
-                            <img src="https://media.interaksyon.com/wp-content/uploads/2025/12/Potato-Corner.jpg">
-                            <b>Potato Corner</b>
+        <!-- EXPLORE MENU PAGE -->
+        <div id="menu" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">Explore Menu</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
                         </div>
-                        <div class="shop-card">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeTggzvwbTg50FxX9hui5fdFfHd8lrxNMAVQ&s">
-                            <b>Hiraya</b>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="menu-filter">
+                <button class="filter-btn active" onclick="filterMenu('all', this)">All</button>
+                <button class="filter-btn" onclick="filterMenu('burger', this)">Burgers</button>
+                <button class="filter-btn" onclick="filterMenu('pizza', this)">Pizza</button>
+                <button class="filter-btn" onclick="filterMenu('rice', this)">Rice Meals</button>
+                <button class="filter-btn" onclick="filterMenu('sides', this)">Sides</button>
+                <button class="filter-btn" onclick="filterMenu('drinks', this)">Drinks</button>
+            </div>
+
+            <div class="menu-items-grid">
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Classic Cheeseburger</div>
+                        <div class="menu-item-desc">Juicy beef patty with melted cheese and fresh toppings</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱120</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
                         </div>
-                        <div class="shop-card">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxyt4Oz8eHWttaY6k7e_rlYUn0qjcNGQrZnA&s">
-                            <b>Master Siomai</b>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Chicken Rice</div>
+                        <div class="menu-item-desc">Tender chicken with fragrant steamed rice</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱85</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
                         </div>
-                        <div class="shop-card">
-                            <img src="https://static.wixstatic.com/media/52e0bf_15cfb2f1665a46269767abf191d78a41~mv2.png/v1/crop/x_583,y_721,w_3240,h_3566/fill/w_280,h_308,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/52e0bf_15cfb2f1665a46269767abf191d78a41~mv2.png">
-                            <b>Bacsilog</b>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Pepperoni Pizza</div>
+                        <div class="menu-item-desc">Classic pizza with pepperoni and mozzarella</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱250</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
                         </div>
-                        <div class="shop-card">
-                            <img src="https://panlasangpinoy.com/wp-content/uploads/2025/12/Filipino-Fish-and-Vegetable-Stew-750x750.jpg">
-                            <b>Jefcee's</b>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">French Fries</div>
+                        <div class="menu-item-desc">Crispy golden fries with sea salt</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱50</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
                         </div>
-                        <div class="shop-card">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToDk9K2Esuwk4X9T8CB6YaNwA1nUoZnGUQfA&s">
-                            <b>Darlynn's</b>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Berry Smoothie</div>
+                        <div class="menu-item-desc">Fresh mixed berries with yogurt</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱110</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1572695157365-12ec42b0a7e7?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Iced Coffee</div>
+                        <div class="menu-item-desc">Cold brew coffee with ice</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱75</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1473093295203-cad00df16e50?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Double Burger</div>
+                        <div class="menu-item-desc">Two patties with double cheese</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱180</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1596928519471-1c2e01b81c78?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Garlic Bread</div>
+                        <div class="menu-item-desc">Crispy bread with garlic butter</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱45</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="right-col">
-                <div class="best-sellers-box">
-                    <h4 style="font-size:14px; color:#444; border-bottom: 2px solid #ff7e5f; display:inline-block; padding-bottom:3px;">TOP 3 BEST SELLERS</h4>
-                    <div class="mini-food-item">
-                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
-                        <div><b>Cheese Burger</b><span>₱120</span></div>
-                        <i class="bi bi-plus-circle-fill" style="color:#ff7e5f; cursor:pointer; font-size: 20px;"></i>
-                    </div>
-                    <div class="mini-food-item">
-                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100">
-                        <div><b>Chicken Rice</b><span>₱85</span></div>
-                        <i class="bi bi-plus-circle-fill" style="color:#ff7e5f; cursor:pointer; font-size: 20px;"></i>
-                    </div>
-                    <div class="mini-food-item" style="border:none;">
-                        <img src="https://pampangasbest.store/cdn/shop/products/siomai-250g-2.jpg?v=1633240920">
-                        <div><b>Siomai Platter</b><span>₱60</span></div>
-                        <i class="bi bi-plus-circle-fill" style="color:#ff7e5f; cursor:pointer; font-size: 20px;"></i>
-                    </div>
-                </div>
-
-                <div class="feed-box">
-                    <h4 style="font-size:14px; color:#444;">LATEST FOOD FEED</h4>
-                    <div class="post-latest">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <img src="images/1.jpg" style="width:30px; height:30px; border-radius:50%;">
-                            <span style="font-size:12px; font-weight:600;">@yo_yo</span>
-                        </div>
-                        <p style="font-size:12px; color:#555; margin-top:8px;">The Sisig from Grill Master is fire today! 🔥 Highly recommend.</p>
-                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400">
-                    </div>
-                </div>
-
-              
-            </div>
         </div>
+
+        <!-- MY ORDERS PAGE -->
+        <div id="orders-main" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">My Orders</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="orders-container">
+
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order #12344</div>
+                        </div>
+                        <span class="order-status pending"><i class="bi bi-clock"></i> Pending</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Pepperoni Pizza</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱250</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div>
+                            <div class="order-date">March 12, 2025</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="order-total">₱250</div>
+                            <button class="order-action-btn">Track Order</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order #12345</div>
+                        </div>
+                        <span class="order-status completed"><i class="bi bi-check-circle"></i> Completed</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Cheese Burger</div>
+                                <div class="order-item-qty">Qty: 2</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱240</div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">French Fries</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱50</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div>
+                            <div class="order-date">March 10, 2025</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="order-total">₱290</div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order #12343</div>
+                        </div>
+                        <span class="order-status completed"><i class="bi bi-check-circle"></i> Completed</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Chicken Rice</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱85</div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Berry Smoothie</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱110</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div>
+                            <div class="order-date">March 8, 2025</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="order-total">₱195</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOD FEED PAGE -->
+        <div id="feed" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">Food Feed</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="feed-container">
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=1" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">Maria Santos</div>
+                            <div class="feed-time">2 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Just had the most amazing pepperoni pizza from Pizza Hub! 🍕 Definitely coming back for more! 🤤
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 234 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 45 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=2" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">John Reyes</div>
+                            <div class="feed-time">4 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Craving satisfied! Chicken rice from our favorite restaurant. The best comfort food ever! 😋
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 189 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 32 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=3" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">Sarah Cruz</div>
+                            <div class="feed-time">6 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Nothing beats a juicy cheeseburger with crispy fries! Perfect lunch today 🍔✨
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 567 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 78 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=4" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">Alex Gonzales</div>
+                            <div class="feed-time">8 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Berry smoothie for breakfast! So refreshing and healthy! 🍓💚 #HealthyChoices
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 412 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 56 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SETTINGS PAGE -->
+        <div id="settings" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">Settings</h3>
+                <a href="profile.html" class="profile-btn">
+                    <img src="images/jazz.jpg" alt="Profile">
+                    <div class="profile-btn-text">
+                        <div class="profile-btn-name">Jazzmin</div>
+                        <div class="profile-btn-id">ID: 202330691</div>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="settings-container">
+
+                <div class="settings-menu">
+                    <div class="settings-menu-item active" onclick="showSettings('account', this)">
+                        <i class="bi bi-person-circle"></i> Account
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('notifications', this)">
+                        <i class="bi bi-bell"></i> Notifications
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('privacy', this)">
+                        <i class="bi bi-lock"></i> Privacy
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('payment', this)">
+                        <i class="bi bi-credit-card"></i> Payment
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('about', this)">
+                        <i class="bi bi-info-circle"></i> About
+                    </div>
+                </div>
+
+                <div class="settings-content active" id="account">
+                    <h3 class="settings-title">Account Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Personal Information</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Full Name</div>
+                            <input type="text" class="settings-input" value="Jazzmin Roice Ann">
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Email</div>
+                            <input type="email" class="settings-input" value="jazzmin@example.com">
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Phone</div>
+                            <input type="tel" class="settings-input" value="+63 9123456789">
+                        </div>
+                    </div>
+
+                 
+
+                    <div>
+                        <button class="settings-button">Save Changes</button>
+                        <button class="settings-button cancel">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="notifications">
+                    <h3 class="settings-title">Notification Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Email Notifications</div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Order Updates</div>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Promotional Offers</div>
+                                <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">New Restaurants</div>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Push Notifications</div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Delivery Notifications</div>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Weekly Deals</div>
+                                <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Save Changes</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="privacy">
+                    <h3 class="settings-title">Privacy Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Profile Visibility</div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Make profile public</div>
+                                <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Show order history</div>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Data & Privacy</div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Save payment methods</div>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div class="settings-item-label">Allow personalized recommendations</div>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Save Changes</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="payment">
+                    <h3 class="settings-title">Payment Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Saved Payment Methods</div>
+                        <div class="settings-item" style="padding: 20px; background: #f0faf7; flex-direction:row;">
+                            <div style="display: flex; align-items: center; gap: 16px; flex:1;">
+                                <i class="bi bi-credit-card-fill" style="font-size: 24px; color: #0f7a4a;"></i>
+                                <div>
+                                    <div style="font-weight: 700;">Visa •••• 4242</div>
+                                    <div style="font-size: 12px; color: #999;">Expires 12/25</div>
+                                </div>
+                                <div style="margin-left: auto;">
+                                    <button class="settings-button" style="padding: 6px 12px; font-size: 12px;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Add New Payment Method</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Card Number</div>
+                            <input type="text" class="settings-input" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">CVV</div>
+                            <input type="text" class="settings-input" placeholder="123">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Add Payment Method</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="about">
+                    <h3 class="settings-title">About ANIMEALS</h3>
+                    
+                <div class="settings-group">
+    <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; text-align: center; margin-bottom: 20px;">
+
+        <img src="logo1.png" style="width: 100px; height: 100px; object-fit: contain; margin-bottom: -15px;">
+
+        <div style="font-size: 24px; font-weight: 800; margin: -2px 0;">ANIMEALS</div>
+        <div style="color: #999;">Student Food Ordering Platform</div>
+
     </div>
 </div>
+                    <div class="settings-group">
+                        <div class="settings-label">Version</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">App Version</div>
+                            <div class="settings-item-value">1.0.0</div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Last Updated</div>
+                            <div class="settings-item-value">March 12, 2025</div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Support</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Help & Feedback</div>
+                            <button class="settings-button" style="margin: 0; float: right; padding: 6px 12px; font-size: 12px;">Contact Us</button>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Terms & Conditions</div>
+                            <button class="settings-button" style="margin: 0; float: right; padding: 6px 12px; font-size: 12px;">Read</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function showPage(pageId, element) {
+        document.querySelectorAll(".page").forEach(p => {
+            p.classList.remove("active-page")
+        })
+        
+        const target = document.getElementById(pageId)
+        if(target) target.classList.add("active-page")
+        
+        document.querySelectorAll(".sidebar a").forEach(link => {
+            link.classList.remove("active")
+        })
+        
+        if(element) element.classList.add("active")
+    }
+
+    function filterMenu(category, element) {
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.classList.remove("active")
+        })
+        element.classList.add("active")
+        console.log("Filtering menu by: " + category)
+    }
+
+    function showSettings(tab, element) {
+        document.querySelectorAll(".settings-content").forEach(content => {
+            content.classList.remove("active")
+        })
+        
+        document.querySelectorAll(".settings-menu-item").forEach(item => {
+            item.classList.remove("active")
+        })
+        
+        const targetContent = document.getElementById(tab)
+        if(targetContent) targetContent.classList.add("active")
+        
+        element.classList.add("active")
+    }
+
+    function toggleSwitch(element) {
+        element.classList.toggle("active")
+    }
+
+</script>
+
+</body>
+</html>    <!-- DASHBOARD PAGE -->
+        <div id="dashboard" class="page active-page">
+
+            <div class="topbar">
+                <div class="search-row">
+                    <div class="search-box">
+                        <i class="bi bi-search" style="color:#0f7a4a"></i>
+                        <input type="text" placeholder="Craving something specific?">
+                    </div>
+                    <div style="background:#fff;padding:12px 15px;border-radius:18px;border:1.5px solid #eee;">
+                        <i class="bi bi-sliders2-vertical"></i>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-grid">
+
+                <div class="left-col">
+                    <h3 class="section-title">Food Square Restaurants</h3>
+                    <div class="restaurants-container">
+                        <div class="shops-grid">
+                            <div class="shop-card">
+                                <img src="https://media.interaksyon.com/wp-content/uploads/2025/12/Potato-Corner.jpg">
+                                <b>Potato Corner</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeTggzvwbTg50FxX9hui5fdFfHd8lrxNMAVQ&s">
+                                <b>Hiraya</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxyt4Oz8eHWttaY6k7e_rlYUn0qjcNGQrZnA&s">
+                                <b>Master Siomai</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://static.wixstatic.com/media/52e0bf_15cfb2f1665a46269767abf191d78a41~mv2.png">
+                                <b>Bacsilog</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://panlasangpinoy.com/wp-content/uploads/2025/12/Filipino-Fish-and-Vegetable-Stew-750x750.jpg">
+                                <b>Jefcee's</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToDk9K2Esuwk4X9T8CB6YaNwA1nUoZnGUQfA&s">
+                                <b>Darlynn's</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200">
+                                <b>Pizza Hub</b>
+                            </div>
+                            <div class="shop-card">
+                                <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=200">
+                                <b>Burger King</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-col">
+
+                    <div class="widget-box trending">
+                        <div class="widget-title">TRENDING NOW</div>
+                        <div class="widget-content">
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
+                                <div class="food-info">
+                                    <b>Cheese Burger</b>
+                                    <span style="color:#0f7a4a;">₱120</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100">
+                                <div class="food-info">
+                                    <b>Chicken Rice</b>
+                                    <span style="color:#0f7a4a;">₱85</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=100">
+                                <div class="food-info">
+                                    <b>French Fries</b>
+                                    <span style="color:#0f7a4a;">₱50</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-box">
+                        <div class="widget-title">RECENTLY ADDED</div>
+                        <div class="widget-content">
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100">
+                                <div class="food-info">
+                                    <b>Pepperoni Pizza</b>
+                                    <span style="color:#0f7a4a;">₱250</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                            <div class="mini-food-item">
+                                <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=100">
+                                <div class="food-info">
+                                    <b>Berry Smoothie</b>
+                                    <span style="color:#0f7a4a;">₱110</span>
+                                </div>
+                                <button class="add-btn"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- EXPLORE MENU PAGE -->
+        <div id="menu" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">Explore Menu</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="menu-filter">
+                <button class="filter-btn active" onclick="filterMenu('all', this)">All</button>
+                <button class="filter-btn" onclick="filterMenu('burger', this)">Burgers</button>
+                <button class="filter-btn" onclick="filterMenu('pizza', this)">Pizza</button>
+                <button class="filter-btn" onclick="filterMenu('rice', this)">Rice Meals</button>
+                <button class="filter-btn" onclick="filterMenu('sides', this)">Sides</button>
+                <button class="filter-btn" onclick="filterMenu('drinks', this)">Drinks</button>
+            </div>
+
+            <div class="menu-items-grid">
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Classic Cheeseburger</div>
+                        <div class="menu-item-desc">Juicy beef patty with melted cheese and fresh toppings</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱120</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Chicken Rice</div>
+                        <div class="menu-item-desc">Tender chicken with fragrant steamed rice</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱85</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Pepperoni Pizza</div>
+                        <div class="menu-item-desc">Classic pizza with pepperoni and mozzarella</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱250</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">French Fries</div>
+                        <div class="menu-item-desc">Crispy golden fries with sea salt</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱50</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Berry Smoothie</div>
+                        <div class="menu-item-desc">Fresh mixed berries with yogurt</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱110</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1572695157365-12ec42b0a7e7?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Iced Coffee</div>
+                        <div class="menu-item-desc">Cold brew coffee with ice</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱75</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1473093295203-cad00df16e50?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Double Burger</div>
+                        <div class="menu-item-desc">Two patties with double cheese</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱180</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <img src="https://images.unsplash.com/photo-1596928519471-1c2e01b81c78?w=300">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Garlic Bread</div>
+                        <div class="menu-item-desc">Crispy bread with garlic butter</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">₱45</span>
+                            <button class="menu-item-btn"><i class="bi bi-plus-lg"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MY ORDERS PAGE -->
+        <div id="orders-main" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">My Orders</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="orders-container">
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order #12345</div>
+                        </div>
+                        <span class="order-status completed"><i class="bi bi-check-circle"></i> Completed</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Cheese Burger</div>
+                                <div class="order-item-qty">Qty: 2</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱240</div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">French Fries</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱50</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div>
+                            <div class="order-date">March 10, 2025</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="order-total">₱290</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order #12344</div>
+                        </div>
+                        <span class="order-status pending"><i class="bi bi-clock"></i> Pending</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Pepperoni Pizza</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱250</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div>
+                            <div class="order-date">March 12, 2025</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="order-total">₱250</div>
+                            <button class="order-action-btn">Track Order</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order #12343</div>
+                        </div>
+                        <span class="order-status completed"><i class="bi bi-check-circle"></i> Completed</span>
+                    </div>
+                    <div class="order-items">
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Chicken Rice</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱85</div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=100">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Berry Smoothie</div>
+                                <div class="order-item-qty">Qty: 1</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:700;">₱110</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div>
+                            <div class="order-date">March 8, 2025</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="order-total">₱195</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOD FEED PAGE -->
+        <div id="feed" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">Food Feed</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="feed-container">
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=1" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">Maria Santos</div>
+                            <div class="feed-time">2 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Just had the most amazing pepperoni pizza from Pizza Hub! 🍕 Definitely coming back for more! 🤤
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 234 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 45 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=2" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">John Reyes</div>
+                            <div class="feed-time">4 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Craving satisfied! Chicken rice from our favorite restaurant. The best comfort food ever! 😋
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 189 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 32 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=3" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">Sarah Cruz</div>
+                            <div class="feed-time">6 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Nothing beats a juicy cheeseburger with crispy fries! Perfect lunch today 🍔✨
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 567 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 78 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="feed-post">
+                    <div class="feed-header">
+                        <img src="https://i.pravatar.cc/48?img=4" class="feed-avatar">
+                        <div class="feed-user-info">
+                            <div class="feed-username">Alex Gonzales</div>
+                            <div class="feed-time">8 hours ago</div>
+                        </div>
+                        <div class="feed-more">⋮</div>
+                    </div>
+                    <div class="feed-caption">
+                        Berry smoothie for breakfast! So refreshing and healthy! 🍓💚 #HealthyChoices
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" class="feed-image">
+                    <div class="feed-actions">
+                        <div class="feed-action"><i class="bi bi-heart"></i> 412 Likes</div>
+                        <div class="feed-action"><i class="bi bi-chat-dots"></i> 56 Comments</div>
+                        <div class="feed-action"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SETTINGS PAGE -->
+        <div id="settings" class="page">
+
+            <div class="topbar">
+                <h3 class="section-title">Settings</h3>
+                <div class="topbar-right">
+                    <div class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span style="position:absolute;top:-6px;right:-8px;background:#ff4d4d;color:white;font-size:10px;padding:2px 6px;border-radius:50%;">3</span>
+                    </div>
+                    <a href="profile.html" class="profile-btn">
+                        <img src="images/jazz.jpg" alt="Profile">
+                        <div class="profile-btn-text">
+                            <div class="profile-btn-name">Jazzmin</div>
+                            <div class="profile-btn-id">ID: 202330691</div>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="settings-container">
+
+                <div class="settings-menu">
+                    <div class="settings-menu-item active" onclick="showSettings('account', this)">
+                        <i class="bi bi-person-circle"></i> Account
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('notifications', this)">
+                        <i class="bi bi-bell"></i> Notifications
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('privacy', this)">
+                        <i class="bi bi-lock"></i> Privacy
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('payment', this)">
+                        <i class="bi bi-credit-card"></i> Payment
+                    </div>
+                    <div class="settings-menu-item" onclick="showSettings('about', this)">
+                        <i class="bi bi-info-circle"></i> About
+                    </div>
+                </div>
+
+                <div class="settings-content active" id="account">
+                    <h3 class="settings-title">Account Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Personal Information</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Full Name</div>
+                            <input type="text" class="settings-input" value="Jazzmin Roice Ann">
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Email</div>
+                            <input type="email" class="settings-input" value="jazzmin@example.com">
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Phone</div>
+                            <input type="tel" class="settings-input" value="+63 9123456789">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Save Changes</button>
+                        <button class="settings-button cancel">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="notifications">
+                    <h3 class="settings-title">Notification Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Email Notifications</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Order Updates</div>
+                            <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Promotional Offers</div>
+                            <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">New Restaurants</div>
+                            <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Push Notifications</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Delivery Notifications</div>
+                            <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Weekly Deals</div>
+                            <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Save Changes</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="privacy">
+                    <h3 class="settings-title">Privacy Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Profile Visibility</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Make profile public</div>
+                            <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Show order history</div>
+                            <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Data & Privacy</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Save payment methods</div>
+                            <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Allow personalized recommendations</div>
+                            <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Save Changes</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="payment">
+                    <h3 class="settings-title">Payment Settings</h3>
+                    
+                    <div class="settings-group">
+                        <div class="settings-label">Saved Payment Methods</div>
+                        <div class="settings-item" style="padding: 20px; background: #f0faf7;">
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <i class="bi bi-credit-card-fill" style="font-size: 24px; color: #0f7a4a;"></i>
+                                <div>
+                                    <div style="font-weight: 700;">Visa •••• 4242</div>
+                                    <div style="font-size: 12px; color: #999;">Expires 12/25</div>
+                                </div>
+                                <div style="margin-left: auto;">
+                                    <button class="settings-button" style="padding: 6px 12px; font-size: 12px;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Add New Payment Method</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Card Number</div>
+                            <input type="text" class="settings-input" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">CVV</div>
+                            <input type="text" class="settings-input" placeholder="123">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="settings-button">Add Payment Method</button>
+                    </div>
+                </div>
+
+                <div class="settings-content" id="about">
+                    <h3 class="settings-title">About ANIMEALS</h3>
+                    
+                    <div class="settings-group">
+                        <div style="padding: 20px; background: #f9f9f9; border-radius: 12px; text-align: center; margin-bottom: 20px;">
+                            <i class="bi bi-egg-fried" style="font-size: 48px; color: #ffd700;"></i>
+                            <div style="font-size: 24px; font-weight: 800; margin: 12px 0;">ANIMEALS</div>
+                            <div style="color: #999;">Student Food Ordering Platform</div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Version</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">App Version</div>
+                            <div class="settings-item-value">1.0.0</div>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Last Updated</div>
+                            <div class="settings-item-value">March 12, 2025</div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="settings-label">Support</div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Help & Feedback</div>
+                            <button class="settings-button" style="margin: 0; float: right; padding: 6px 12px; font-size: 12px;">Contact Us</button>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-item-label">Terms & Conditions</div>
+                            <button class="settings-button" style="margin: 0; float: right; padding: 6px 12px; font-size: 12px;">Read</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function showPage(pageId, element) {
+        document.querySelectorAll(".page").forEach(p => {
+            p.classList.remove("active-page")
+        })
+        
+        const target = document.getElementById(pageId)
+        if(target) target.classList.add("active-page")
+        
+        document.querySelectorAll(".sidebar a").forEach(link => {
+            link.classList.remove("active")
+        })
+        
+        if(element) element.classList.add("active")
+    }
+
+    function filterMenu(category, element) {
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.classList.remove("active")
+        })
+        element.classList.add("active")
+        console.log("Filtering menu by: " + category)
+    }
+
+    function showSettings(tab, element) {
+        document.querySelectorAll(".settings-content").forEach(content => {
+            content.classList.remove("active")
+        })
+        
+        document.querySelectorAll(".settings-menu-item").forEach(item => {
+            item.classList.remove("active")
+        })
+        
+        const targetContent = document.getElementById(tab)
+        if(targetContent) targetContent.classList.add("active")
+        
+        element.classList.add("active")
+    }
+
+    function toggleSwitch(element) {
+        element.classList.toggle("active")
+    }
+
+</script>
 
 </body>
 </html>
