@@ -1,0 +1,133 @@
+:root { 
+    --primary-gradient: linear-gradient(135deg, #2ecc71, #0e6e36); 
+    --bg-gradient: linear-gradient(135deg, #d4f8e8, #e8fff4); 
+    --accent-color: #27ae60; 
+    --neu-white: #ffffff; 
+    --neu-gray: #cfe9da; 
+}
+body { 
+    min-height: 100vh; display: flex; justify-content: center; align-items: center; 
+    background: var(--bg-gradient); background-size: 400% 400%; animation: gradientBG 15s ease infinite; 
+    font-family: 'Segoe UI', sans-serif; overflow: hidden; 
+}
+.main-box { width: 900px; height: 560px; background: #fff; border-radius: 25px; overflow: hidden; display: flex; box-shadow: 0 15px 40px rgba(0,0,0,.15); }
+.left-panel { width: 35%; background: url('delivery.gif') center center / cover no-repeat; background-color: #fce4ec; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; }
+.toggle-box { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: flex-end; }
+.toggle-slider { position: absolute; width: 140px; height: 50px; background: white; border-radius: 30px 0 0 30px; top: -2px; right: 0; transition: .5s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: -5px 0 15px rgba(0,0,0,0.05); }
+.toggle-slider::after, .toggle-slider::before { content: ""; position: absolute; right: 0; width: 20px; height: 20px; background: transparent; }
+.toggle-slider::after { bottom: -17.5px; border-top-right-radius: 20px; box-shadow: 10px 0 0 0 white; }
+.toggle-slider::before { top: -17.5px; border-bottom-right-radius: 20px; box-shadow: 10px 0 0 0 white; }
+.toggle-box.signup-active .toggle-slider { transform: translateY(53px); }
+.toggle-btn { width: 140px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: rgba(255, 255, 255, 0.8); cursor: pointer; position: relative; z-index: 2; transition: 0.3s; }
+.toggle-btn.active { color: var(--accent-color); }
+.right-panel { 
+    width: 65%; 
+    padding: 30px 70px 30px 50px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative; 
+}
+.form-box { 
+    width: 100%; 
+    max-width: 340px;
+    text-align: center; 
+    position: absolute; 
+    transition: all 0.6s ease-in-out; 
+}
+.signup-form {
+    left: 10px;
+}
+.form-hidden { opacity: 0; transform: translateY(30px) scale(0.9); pointer-events: none; }
+.logo{ width: 200px; height: 150px; border-radius: 20px; overflow: hidden; margin: 0 auto -10px; margin-top: -20px; display: flex; align-items: center; justify-content: center; }
+.logo video{ width: 100%; height: 100%; object-fit: cover; }
+.form-visible .logo{ animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)); }
+.description-text { font-size: 13.5px; color: #777; margin-bottom: 20px; }
+.form-control { border-radius: 30px; padding: 11px 20px; margin-bottom: 15px; border: 2px solid transparent; background-color: #f0f0f0; box-shadow: inset 6px 6px 10px var(--neu-gray), inset -6 -6px 10px var(--neu-white); transition: 0.3s; outline: none; width: 100%; }
+.form-control:focus { border: 2px solid var(--accent-color); box-shadow: inset 6px 6px 10px var(--neu-gray), inset -6px -6px 10px var(--neu-white); }
+.pass-wrapper { position: relative; width: 100%; }
+.eye-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888; font-size: 18px; z-index: 5; transition: 0.3s; }
+.btn-main { border-radius: 30px; padding: 12px 35px; border: none; background: var(--primary-gradient); color: white; font-weight: 600; transition: 0.3s, box-shadow 0.3s; }
+.btn-main:hover { transform: translateY(-2px); box-shadow: 0 0 15px #2ecc71, 0 0 30px #27ae60; }
+.form-check-input:checked { background-color: var(--accent-color); border-color: var(--accent-color); }
+.social-container { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+.social-item { display: flex; align-items: center; background: #f0f0f0; padding: 10px 14px; border-radius: 30px; cursor: pointer; overflow: hidden; max-width: 45px; white-space: nowrap; transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s; box-shadow: 4px 4px 8px var(--neu-gray), -4px -4px 8px var(--neu-white); }
+.social-item i { font-size: 18px; color: #555; min-width: 20px; }
+.social-item span { margin-left: 10px; font-size: 13px; font-weight: 600; color: #555; opacity: 0; transition: opacity 0.3s ease; }
+.social-item:hover { max-width: 150px; }
+.social-item:hover span { opacity: 1; }
+.google:hover i { color: #DB4437; }
+.facebook:hover i { color: #4267B2; }
+.password-requirements {
+    position: absolute;
+    right: -190px;
+    top: 53%;
+    transform: translateY(-50%);
+    width: 170px;
+    max-height: 220px;
+    padding: 18px 12px;
+    border-radius: 20px;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.3;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) translateX(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 20;
+    overflow: hidden;
+}
+.password-requirements.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+.password-requirements span {
+    display: block;
+    margin: 6px 0;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+.password-requirements span.valid {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--accent-color);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+}
+.strength-container {
+    margin-top: 12px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.strength-bar {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+.strength-0 { background: #e74c3c; }
+.strength-1 { background: #f39c12; }
+.strength-2 { background: #f1c40f; }
+.strength-3 { background: #27ae60; }
+.strength-4 { background: #2ecc71; }
+.strength-5 { background: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+@media (max-width: 768px) {
+    .password-requirements {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .signup-form .pass-wrapper {
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animeals Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden p-8 md:p-16">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-800 tracking-tight">ANIMEALS PRO MEMBERSHIP</h1>
+            <p class="text-gray-400 mt-2 text-sm uppercase tracking-widest font-medium">Step 3 of 3</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-12">
+            
+            <div class="flex-1">
+                <h2 class="text-xl font-bold text-gray-700 mb-6">Payment Method</h2>
+
+                <div class="grid grid-cols-3 gap-3 mb-8">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="payment" class="peer hidden" checked>
+                        <div class="text-center p-3 border-2 rounded-xl border-gray-100 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
+                            <span class="block text-xs font-bold text-gray-600">CARD</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="payment" class="peer hidden">
+                        <div class="text-center p-3 border-2 rounded-xl border-gray-100 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all">
+                            <span class="block text-xs font-bold text-gray-600">GCASH</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="payment" class="peer hidden">
+                        <div class="text-center p-3 border-2 rounded-xl border-gray-100 peer-checked:border-green-500 peer-checked:bg-green-50 transition-all">
+                            <span class="block text-xs font-bold text-gray-600">MAYA</span>
+                        </div>
+                    </label>
+                </div>
+
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Card Information</label>
+                        <div class="relative">
+                            <input type="text" placeholder="0000 0000 0000 0000" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none">
+                        </div>
+                        <div class="flex gap-2 mt-2">
+                            <input type="text" placeholder="MM / YY" class="w-1/2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                            <input type="text" placeholder="CVC" class="w-1/2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        </div>
+                        <input type="text" placeholder="Name On Card" class="w-full p-3 mt-2 bg-gray-50 border border-gray-200 rounded-lg">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Email</label>
+                            <input type="email" placeholder="hello@animeals.com" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Phone</label>
+                            <input type="tel" placeholder="0917 XXX XXXX" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="w-full md:w-80 bg-emerald-50/40 p-6 rounded-2xl border border-emerald-100">
+                <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Subscribe to</span>
+                <h3 class="text-xl font-bold text-gray-800 mb-6">ANIMEALS Membership</h3>
+
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-semibold text-gray-700">Subscription</p>
+                            <p class="text-[10px] text-gray-400 uppercase font-medium">Billed Monthly</p>
+                        </div>
+                        <p class="font-bold text-emerald-600">100 PHP</p>
+                    </div>
+
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-semibold text-gray-700">Application fee</p>
+                            <p class="text-[10px] text-gray-400 uppercase font-medium">One-time</p>
+                        </div>
+                        <p class="font-bold text-emerald-600">20 PHP</p>
+                    </div>
+
+                    <div class="pt-2">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase mb-2">Apply Discount Code</p>
+                        <div class="relative">
+                            <input type="text" placeholder="PRO2024" class="w-full p-2 border border-gray-200 rounded-lg pr-10 bg-white">
+                            <span class="absolute right-3 top-2.5 text-emerald-500 font-bold">✓</span>
+                        </div>
+                    </div>
+
+                    <hr class="border-emerald-100">
+
+                    <div class="flex justify-between items-center py-2">
+                        <p class="text-lg font-bold text-gray-800">Total</p>
+                        <p class="text-2xl font-black text-emerald-600">120 PHP</p>
+                    </div>
+
+                    <div class="flex gap-3 items-start">
+                        <input type="checkbox" class="mt-1 accent-emerald-500">
+                        <p class="text-[10px] text-gray-500 leading-tight">
+                            I agree to the <span class="text-emerald-600 underline font-medium">Terms</span> and <span class="text-emerald-600 underline font-medium">Automatic Renewal</span>.
+                        </p>
+                    </div>
+
+                    <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200 transition-all uppercase text-xs tracking-widest">
+                        Pay & Subscribe
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

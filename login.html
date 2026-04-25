@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANIMEALS: LOGIN & SIGN UP</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="styleLOGIN.css">
+</head>
+<body>
+
+<div class="main-box">
+    <div class="left-panel">
+        <div class="toggle-box" id="toggle"> 
+            <div class="toggle-slider"></div>
+            <div class="toggle-btn active" id="loginToggle" onclick="showLogin()">LOGIN</div>
+            <div class="toggle-btn" id="signupToggle" onclick="showSignup()">SIGN UP</div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div id="error-container"></div>
+        
+        <!-- LOGIN FORM -->
+        <form method="POST" action="auth.php" class="form-box login-form form-visible" id="loginForm">
+
+            <div class="logo">
+                <video autoplay muted loop playsinline>
+                    <source src="vid.mp4">
+                </video>
+            </div>
+
+            <h4 class="mb-1">WELCOME BACK!</h4>
+            <p class="description-text">Log in to continue your food journey.</p>
+
+            <input type="email" class="form-control" name="LOGemail" placeholder="Email">
+
+            <div class="pass-wrapper">
+                <input type="password" class="form-control" name="LOGpassword" placeholder="Password" id="loginPass">
+                <i class="bi bi-eye-slash eye-icon" onclick="togglePass('loginPass', this)"></i>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="keepMeLogin">
+                    <label class="form-check-label" for="keepMeLogin" style="font-size: 13px; color: #888; cursor:pointer;">Keep me logged in</label>
+                </div>
+                <a href="#" style="text-decoration:none; color:#1ad361; font-size:13px;">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-main w-100 mb-4" name="loginBtn">LOGIN</button>
+
+            <div class="social">
+                <p style="font-size:13px; color:#888;">or login with</p>
+                <div class="social-container">
+                    <div class="social-item google">
+                        <a href="loginREDIRECT.php?source=login" style="text-decoration:none; display:flex; align-items:center;">
+                            <i class="bi bi-google"></i>
+                            <span>Google</span>
+                        </a>
+                    </div>
+                    <div class="social-item facebook">
+                        <i class="bi bi-facebook"></i>
+                        <span>Facebook</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form method="POST" action="auth.php" class="form-box signup-form form-hidden" id="signupForm">
+            <div class="logo">
+                <video autoplay muted loop playsinline>
+                    <source src="vid.mp4">
+                </video>
+            </div>
+            <h4 class="mb-1">CREATE YOUR ACCOUNT</h4>
+            <p class="description-text">Join us and enjoy delicious meals delivered fast.</p>
+
+            <div id="signup-message"></div>
+
+            <input type="text" class="form-control" placeholder="Full Name" name="signupName" id="signupName">
+            <input type="email" class="form-control" placeholder="Email" name="signupEmail" id="signupEmail">
+
+            <div class="pass-wrapper">
+                <input type="password" class="form-control" placeholder="Password (9 characters)" name="signupPass" id="signupPass">
+                <i class="bi bi-eye-slash eye-icon" onclick="togglePass('signupPass', this)"></i>
+            </div>
+
+            <div id="password-requirements" class="password-requirements">
+                <span id="lowercase-req">• Lowercase (a-z)</span>
+                <span id="uppercase-req">• Uppercase (A-Z)</span>
+                <span id="number-req">• Number (0-9)</span>
+                <span id="special-req">• Special (!@#$%^&*)</span>
+                <span id="length-req">• Min 9 characters</span>
+            </div>
+
+            <button type="submit" name="signupBtn" class="btn-main w-100 mt-3 mb-4" id="signupBtn">SIGN UP</button>
+
+            <div class="social">
+                <p style="font-size:13px; color:#888;">or login with</p>
+                <div class="social-container">
+                    <div class="social-item google">
+                        <a href="loginREDIRECT.php?source=signup" style="text-decoration:none; display:flex; align-items:center;">
+                            <i class="bi bi-google"></i>
+                            <span>Google</span>
+                        </a>
+                    </div>
+                    <div class="social-item facebook">
+                        <i class="bi bi-facebook"></i>
+                        <span>Facebook</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script src="scriptLOGIN.js"></script>
+
+</body>
+</html>
