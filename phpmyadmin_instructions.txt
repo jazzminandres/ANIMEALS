@@ -1,0 +1,29 @@
+THIS FILE EXPLAINS HOW TO IMPORT THE ANIMEALS MYSQL DATABASE THROUGH PHPMYADMIN.
+PHPMYADMIN IMPORT INSTRUCTIONS FOR ANIMEALS
+
+1. Open phpMyAdmin and log in with your MySQL credentials:
+   - Host: localhost
+   - Username: esoul
+   - Password: Animeals1.Animeals
+
+2. In the phpMyAdmin interface, choose the "Import" tab.
+
+3. Select the file `phpmyadmin_schema.sql` from the SOFTWARE directory.
+
+4. Run the import. This will create the following databases and tables:
+   - `animeals`
+   - `seller_data`
+   - `animeals_posts`
+
+5. Confirm that the tables were created successfully.
+
+Important note:
+- The current PHP code in this workspace still uses Microsoft SQL Server functions (`sqlsrv_*`) and SQL Server-specific SQL syntax.
+- Importing this schema into MySQL is only the first step. The PHP application itself must also be updated to use MySQL-compatible database connections (`mysqli` or `PDO`) and the MySQL schema names.
+
+Recommended follow-up:
+- Replace SQL Server connection logic with a MySQL connection using `localhost`, `esoul`, and `Animeals1.Animeals`.
+- Update any SQL Server-specific queries, such as `IF OBJECT_ID(...)`, `dbo.` prefixes, `TOP`, and `ISNULL`, to MySQL equivalents.
+- Verify that your code points to the correct MySQL database names: `animeals`, `seller_data`, and `animeals_posts`.
+
+If you want, I can also help convert the PHP DB layer from SQL Server to MySQL so the site works end to end.
