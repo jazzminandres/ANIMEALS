@@ -1,0 +1,331 @@
+<!-- UNUSED: THIS IS A STANDALONE ADMIN FLOWCHART REFERENCE, NOT PART OF THE ACTIVE APP ROUTE. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Flowchart</title>
+    <style>
+        :root {
+            --bg-color: #f7f9fa;
+            --line-color: #b0bec5;
+            --text-color: #2c3e50;
+            
+            /* Node Colors */
+            --start-color: #e8f5e9;
+            --start-border: #4caf50;
+            --process-color: #e3f2fd;
+            --process-border: #2196f3;
+            --decision-color: #fff3e0;
+            --decision-border: #ff9800;
+            --db-color: #fffde7;
+            --db-border: #fbc02d;
+            --end-color: #ffebee;
+            --end-border: #f44336;
+
+            /* Module Specific Colors */
+            --shop-color: #0d47a1;
+            --seller-color: #e65100;
+            --users-color: #004d40;
+            --audit-color: #37474f;
+            --reports-color: #b71c1c;
+            --comm-color: #4a148c;
+            --analytics-color: #006064;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* Flowchart Container */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* Node Base Styles */
+        .node {
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: 2px solid #ccc;
+            background-color: #fff;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            min-width: 180px;
+            max-width: 280px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* Shape Variations */
+        .start { background-color: var(--start-color); border-color: var(--start-border); border-radius: 20px; font-weight: bold; }
+        .process { background-color: var(--process-color); border-color: var(--process-border); }
+        .decision { background-color: var(--decision-color); border-color: var(--decision-border); transform: rotate(0deg); border-radius: 12px; font-weight: bold;}
+        .database { background-color: var(--db-color); border-color: var(--db-border); border-radius: 10px / 20px; min-width: 100px; font-size: 12px;}
+        .end { background-color: var(--end-color); border-color: var(--end-border); border-radius: 20px; font-weight: bold;}
+
+        /* Connector Lines */
+        .connector-v {
+            width: 2px;
+            height: 24px;
+            background-color: var(--line-color);
+        }
+
+        /* Combined Layout Components */
+        .db-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Split layouts (Yes/No branches) */
+        .split-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Main Module Grid Grid */
+        .modules-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            gap: 15px;
+            margin-top: 20px;
+            border-top: 2px dashed var(--line-color);
+            padding-top: 30px;
+        }
+
+        .module-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 160px;
+        }
+
+        /* Module Header Styling */
+        .module-header {
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            margin-bottom: 15px;
+        }
+        .mod-shop { background-color: var(--shop-color); }
+        .mod-seller { background-color: var(--seller-color); }
+        .mod-users { background-color: var(--users-color); }
+        .mod-audit { background-color: var(--audit-color); }
+        .mod-reports { background-color: var(--reports-color); }
+        .mod-comm { background-color: var(--comm-color); }
+        .mod-analytics { background-color: var(--analytics-color); }
+
+        /* Global Sticky Note/Footer style */
+        .global-note {
+            margin-top: 40px;
+            background-color: #334155;
+            color: #fff;
+            border: none;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+
+        .label {
+            font-size: 11px;
+            color: #7f8c8d;
+            font-weight: bold;
+            margin: 2px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Dashboard System Architecture Flow</h1>
+
+    <div class="flowchart">
+        
+        <!-- START -->
+        <div class="node start">START<br>Admin Opens Dashboard Page</div>
+        <div class="connector-v"></div>
+
+        <!-- DB Connection Stage -->
+        <div class="db-container">
+            <div class="node process">Start Session &<br>Connect to Databases</div>
+            <div class="node database">Animeals DB<br>& Seller DB</div>
+        </div>
+        <div class="connector-v"></div>
+
+        <!-- Auth Check -->
+        <div class="node decision">Check:<br>User Logged In?</div>
+        <div class="connector-v"></div>
+
+        <div class="split-row">
+            <div class="branch">
+                <div class="label">No</div>
+                <div class="node end">Redirect to Login Page → END</div>
+            </div>
+            <div class="branch">
+                <div class="label">Yes</div>
+                <div class="node decision">Check:<br>Is Account Role Admin?</div>
+            </div>
+        </div>
+
+        <div class="split-row" style="margin-left: 240px;">
+            <div class="branch">
+                <div class="label">No</div>
+                <div class="node end">Redirect to Student Dashboard → END</div>
+            </div>
+            <div class="branch" style="margin-right: 40px;">
+                <div class="label">Yes</div>
+                <div class="connector-v"></div>
+            </div>
+        </div>
+
+        <!-- Load Data -->
+        <div class="db-container">
+            <div class="node process"><b>Validation Successful:</b><br>Retrieve Core Records (Users, Shops, Orders, Reports, Commissions, Audit Logs)</div>
+            <div class="node database">Animeals DB<br>& Seller DB</div>
+        </div>
+        <div class="connector-v"></div>
+
+        <!-- Main Display Overview -->
+        <div class="node process" style="max-width: 450px; background-color: #f1f5f9; border-color: #64748b;">
+            <b>Display Dashboard Overview</b><br>
+            <span style="font-size: 12px; display:block; margin-top:5px;">Stats: Total Students, Active Sellers, Commission Revenue, Pending Orders, & Analytics Charts</span>
+        </div>
+        <div class="connector-v" style="height: 40px;"></div>
+
+        <div class="node decision" style="background-color: #eceff1; border-color: #90a4ae;">Admin Selects Module?</div>
+
+        <!-- SYSTEM MODULES SECTIONS -->
+        <div class="modules-container">
+            
+            <!-- Manage Shops -->
+            <div class="module-column">
+                <div class="node module-header mod-shop">Manage Shops</div>
+                <div class="node process">Retrieve All Shop Records & Check Status</div>
+                <div class="connector-v"></div>
+                <div class="node decision">Action:<br>Approve or Reject?</div>
+                <div class="connector-v"></div>
+                <div class="split-row">
+                    <div class="branch">
+                        <div class="label">Approve</div>
+                        <div class="node process" style="border-color: var(--start-border)">Mark as Verified & Update shop_details</div>
+                    </div>
+                    <div class="branch">
+                        <div class="label">Reject</div>
+                        <div class="node end">Remove Shop & Associated Account</div>
+                    </div>
+                </div>
+                <div class="connector-v"></div>
+                <div class="node database">Log to Audit Table</div>
+            </div>
+
+            <!-- Review Sellers -->
+            <div class="module-column">
+                <div class="node module-header mod-seller">Review Sellers</div>
+                <div class="node process">Retrieve Applications, Business Permits & IDs</div>
+                <div class="connector-v"></div>
+                <div class="node decision">Action:<br>Approve or Reject?</div>
+                <div class="connector-v"></div>
+                <div class="split-row">
+                    <div class="branch">
+                        <div class="label">Approve</div>
+                        <div class="node process" style="border-color: var(--start-border)">Verify Account & Update seller_details</div>
+                    </div>
+                    <div class="branch">
+                        <div class="label">Reject</div>
+                        <div class="node end">Reject Account Status</div>
+                    </div>
+                </div>
+                <div class="connector-v"></div>
+                <div class="node process">Store Admin Notes & Log Audit</div>
+            </div>
+
+            <!-- Users List -->
+            <div class="module-column">
+                <div class="node module-header mod-users">Users List</div>
+                <div class="node process">Display All Registered Accounts</div>
+                <div class="connector-v"></div>
+                <div class="node decision">Action:<br>Ban or Unban?</div>
+                <div class="connector-v"></div>
+                <div class="node process">Update User Status in user_details Table</div>
+                <div class="connector-v"></div>
+                <div class="node database">Log to Audit Table</div>
+            </div>
+
+            <!-- User Audit -->
+            <div class="module-column">
+                <div class="node module-header mod-audit">User Audit</div>
+                <div class="node process">Monitor System Log Transactions</div>
+                <div class="connector-v"></div>
+                <div class="node database">Every Admin Action Automatically Recorded in audit_logs Table</div>
+            </div>
+
+            <!-- Reports -->
+            <div class="module-column">
+                <div class="node module-header mod-reports">Reports</div>
+                <div class="node process">Calculate Live Records Counts</div>
+                <div class="connector-v"></div>
+                <div class="node database" style="background-color: #fdf2f2;">Fetch Data: Unverified Shops, Pending Reviews, Pending Orders, Banned Users</div>
+                <div class="connector-v"></div>
+                <div class="node process">Display Live Counts on Dashboard Counters</div>
+            </div>
+
+            <!-- Commissions -->
+            <div class="module-column">
+                <div class="node module-header mod-comm">Commissions</div>
+                <div class="node process">Retrieve Completed & Ready Orders</div>
+                <div class="connector-v"></div>
+                <div class="node process" style="background-color: #f3e5f5; border-color: var(--comm-color)">Calculate 10% Platform Commission</div>
+                <div class="connector-v"></div>
+                <div class="node database">Generate & Display Shop Revenue Reports</div>
+            </div>
+
+            <!-- Analytics -->
+            <div class="module-column">
+                <div class="node module-header mod-analytics">Analytics</div>
+                <div class="node process">Render Client Side Graphics (Chart.js)</div>
+                <div class="connector-v"></div>
+                <div class="node process">Generate Distribution Charts:<br>• Revenue Growth<br>• Order Status<br>• Top Shops</div>
+            </div>
+
+        </div>
+
+        <!-- Global Logic Note -->
+        <div class="node global-note">
+            <strong>Asynchronous Engine Layer (AJAX / Fetch API)</strong><br>
+            <p style="font-size: 12px; margin: 5px 0 0 0; font-weight: normal; line-height: 1.4;">
+                Running continuously across actions. Whenever an admin approves, rejects, bans, or updates records, the system processes background requests to update databases, records logs, alters counter badges, and alerts via toast notifications seamlessly without full-page reloads.
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
